@@ -7,9 +7,11 @@ services:
     - 27017:27017
     volumes:
     - db_data:/data/db
+    - ./mongo-init:/docker-entrypoint-initdb.d:ro
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${BLOOD_DONORS_API_MONGODB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${BLOOD_DONORS_API_MONGODB_PASSWORD}
+      MONGO_INITDB_DATABASE: cv2xvancoa-blood-donors
   mongo_express:
     image: mongo-express
     container_name: mongo_express

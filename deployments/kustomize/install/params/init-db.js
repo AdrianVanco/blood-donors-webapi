@@ -1,11 +1,11 @@
-const mongoHost = process.env.AMBULANCE_API_MONGODB_HOST
-const mongoPort = process.env.AMBULANCE_API_MONGODB_PORT
+const mongoHost = process.env.BLOOD_DONORS_API_MONGODB_HOST
+const mongoPort = process.env.BLOOD_DONORS_API_MONGODB_PORT
 
-const mongoUser = process.env.AMBULANCE_API_MONGODB_USERNAME
-const mongoPassword = process.env.AMBULANCE_API_MONGODB_PASSWORD
+const mongoUser = process.env.BLOOD_DONORS_API_MONGODB_USERNAME
+const mongoPassword = process.env.BLOOD_DONORS_API_MONGODB_PASSWORD
 
-const database = process.env.AMBULANCE_API_MONGODB_DATABASE
-const collection = process.env.AMBULANCE_API_MONGODB_COLLECTION
+const database = process.env.BLOOD_DONORS_API_MONGODB_DATABASE
+const collection = process.env.BLOOD_DONORS_API_MONGODB_COLLECTION
 
 const retrySeconds = parseInt(process.env.RETRY_CONNECTION_SECONDS || "5") || 5;
 
@@ -44,13 +44,42 @@ db[collection].createIndex({ "id": 1 })
 //insert sample data
 let result = db[collection].insertMany([
     {
-        "id": "bobulova",
-        "name": "Dr.Bobulová",
-        "roomNumber": "123",
-        "predefinedConditions": [
-            { "value": "Nádcha", "code": "rhinitis" },
-            { "value": "Kontrola", "code": "checkup" }
+        "id": "bratislava-bory",
+        "name": "Bratislava Bory",
+        "address": "Cesta mládeže 2/A, Bratislava",
+        "predefinedDonationTypes": [
+            { "value": "Darovanie krvi", "code": "blood", "typicalDurationMinutes": 15 },
+            { "value": "Darovanie krvnej plazmy", "code": "plasma", "typicalDurationMinutes": 45 }
+        ],
+        "donors": [
+            {
+                "id": "x321ab3",
+                "name": "Adrián Vančo",
+                "donorId": "1234567890",
+                "sex": "M",
+                "bloodType": "A+",
+                "email": "vancoadrian7@gmail.com",
+                "phone": "+421917529741",
+                "preferredDonationType": "blood",
+                "preferredSite": "bratislava-bory",
+                "eligible": true,
+                "registeredSince": new Date("2026-05-20T09:00:00Z"),
+                "donations": [
+                    { "date": new Date("2025-07-10T09:00:00Z"), "donationType": { "value": "Darovanie krvi", "code": "blood" }, "status": "Odber dokončený" },
+                    { "date": new Date("2024-02-13T10:45:00Z"), "donationType": { "value": "Darovanie krvi", "code": "blood" }, "status": "Odber dokončený" }
+                ]
+            }
         ]
+    },
+    {
+        "id": "malacky",
+        "name": "Malacky",
+        "address": "Allianz/Galéria skla, Cesta mládeže 2/A, Malacky",
+        "predefinedDonationTypes": [
+            { "value": "Darovanie krvi", "code": "blood", "typicalDurationMinutes": 15 },
+            { "value": "Darovanie krvnej plazmy", "code": "plasma", "typicalDurationMinutes": 45 }
+        ],
+        "donors": []
     }
 ]);
 
