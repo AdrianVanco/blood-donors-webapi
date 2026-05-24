@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: xvancoa-ambulance-webapi
+  name: cv2xvancoa-blood-donors-webapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      pod: xvancoa-ambulance-webapi-label
+      pod: cv2xvancoa-blood-donors-webapi-label
   template:
     metadata:
       labels:
-        pod: xvancoa-ambulance-webapi-label
+        pod: cv2xvancoa-blood-donors-webapi-label
     spec:
       volumes:
       - name: init-scripts
         configMap:
-          name: xvancoa-ambulance-webapi-mongodb-init
+          name: cv2xvancoa-blood-donors-webapi-mongodb-init
       initContainers:
       - name: init-mongodb
         image: mongo:latest
@@ -25,25 +25,25 @@ spec:
         - name: init-scripts
           mountPath: /scripts
         env:
-          - name: AMBULANCE_API_PORT
+          - name: BLOOD_DONORS_API_PORT
             value: "8080"
-          - name: AMBULANCE_API_MONGODB_HOST
+          - name: BLOOD_DONORS_API_MONGODB_HOST
             value: mongodb
-          - name: AMBULANCE_API_MONGODB_PORT
+          - name: BLOOD_DONORS_API_MONGODB_PORT
             value: "27017"
-          - name: AMBULANCE_API_MONGODB_USERNAME
+          - name: BLOOD_DONORS_API_MONGODB_USERNAME
             value: ""
-          - name: AMBULANCE_API_MONGODB_PASSWORD
+          - name: BLOOD_DONORS_API_MONGODB_PASSWORD
             value: ""
-          - name: AMBULANCE_API_MONGODB_DATABASE
+          - name: BLOOD_DONORS_API_MONGODB_DATABASE
             valueFrom:
               configMapKeyRef:
-                name: xvancoa-ambulance-webapi-config
+                name: cv2xvancoa-blood-donors-webapi-config
                 key: database
-          - name: AMBULANCE_API_MONGODB_COLLECTION
+          - name: BLOOD_DONORS_API_MONGODB_COLLECTION
             valueFrom:
               configMapKeyRef:
-                name: xvancoa-ambulance-webapi-config
+                name: cv2xvancoa-blood-donors-webapi-config
                 key: collection
           - name: RETRY_CONNECTION_SECONDS
             value: "5"
@@ -55,8 +55,8 @@ spec:
             memory: "256Mi"
             cpu: "0.1"
       containers:
-      - name: xvancoa-ambulance-wl-webapi-container
-        image: xvancoa/ambulance-wl-webapi:latest
+      - name: cv2xvancoa-blood-donors-webapi-container
+        image: xvancoa/cv2xvancoa-blood-donors-webapi:latest
         imagePullPolicy: Always
         ports:
         - name: webapi-port
@@ -66,31 +66,31 @@ spec:
               name: otel-params
               optional: true
         env:
-          - name: AMBULANCE_API_ENVIRONMENT
+          - name: BLOOD_DONORS_API_ENVIRONMENT
             value: production
-          - name: AMBULANCE_API_PORT
+          - name: BLOOD_DONORS_API_PORT
             value: "8080"
-          - name: AMBULANCE_API_MONGODB_HOST
+          - name: BLOOD_DONORS_API_MONGODB_HOST
             value: mongodb
-          - name: AMBULANCE_API_MONGODB_PORT
+          - name: BLOOD_DONORS_API_MONGODB_PORT
             value: "27017"
             # change to actual value
-          - name: AMBULANCE_API_MONGODB_USERNAME
+          - name: BLOOD_DONORS_API_MONGODB_USERNAME
             value: ""
             #change to actual value
-          - name: AMBULANCE_API_MONGODB_PASSWORD
+          - name: BLOOD_DONORS_API_MONGODB_PASSWORD
             value: ""
-          - name: AMBULANCE_API_MONGODB_DATABASE
+          - name: BLOOD_DONORS_API_MONGODB_DATABASE
             valueFrom:
               configMapKeyRef:
-                name: xvancoa-ambulance-webapi-config
+                name: cv2xvancoa-blood-donors-webapi-config
                 key: database
-          - name: AMBULANCE_API_MONGODB_COLLECTION
+          - name: BLOOD_DONORS_API_MONGODB_COLLECTION
             valueFrom:
               configMapKeyRef:
-                name: xvancoa-ambulance-webapi-config
+                name: cv2xvancoa-blood-donors-webapi-config
                 key: collection
-          - name: AMBULANCE_API_MONGODB_TIMEOUT_SECONDS
+          - name: BLOOD_DONORS_API_MONGODB_TIMEOUT_SECONDS
             value: "5"
         resources:
           requests:

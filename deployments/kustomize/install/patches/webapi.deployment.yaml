@@ -1,59 +1,59 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: xvancoa-ambulance-webapi
+  name: cv2xvancoa-blood-donors-webapi
 spec:
   template:
     spec:
       initContainers:
         - name: init-mongodb
           env:
-            - name: AMBULANCE_API_MONGODB_HOST
+            - name: BLOOD_DONORS_API_MONGODB_HOST
               value: null
               valueFrom:
                 configMapKeyRef:
                   name: mongodb-connection
                   key: host
-            - name: AMBULANCE_API_MONGODB_PORT
+            - name: BLOOD_DONORS_API_MONGODB_PORT
               value: null
               valueFrom:
                 configMapKeyRef:
                   name: mongodb-connection
                   key: port
-            - name: AMBULANCE_API_MONGODB_USERNAME
+            - name: BLOOD_DONORS_API_MONGODB_USERNAME
               value: null
               valueFrom:
                 secretKeyRef:
                   name: mongodb-auth
                   key: username
-            - name: AMBULANCE_API_MONGODB_PASSWORD
+            - name: BLOOD_DONORS_API_MONGODB_PASSWORD
               value: null
               valueFrom:
                 secretKeyRef:
                   name: mongodb-auth
                   key: password
       containers:
-        - name: xvancoa-ambulance-wl-webapi-container
+        - name: cv2xvancoa-blood-donors-webapi-container
           env:
-            - name: AMBULANCE_API_MONGODB_HOST
+            - name: BLOOD_DONORS_API_MONGODB_HOST
               value: null
               valueFrom:
                 configMapKeyRef:
                   name: mongodb-connection
                   key: host
-            - name: AMBULANCE_API_MONGODB_PORT
+            - name: BLOOD_DONORS_API_MONGODB_PORT
               value: null
               valueFrom:
                 configMapKeyRef:
                   name: mongodb-connection
                   key: port
-            - name: AMBULANCE_API_MONGODB_USERNAME
+            - name: BLOOD_DONORS_API_MONGODB_USERNAME
               value: null
               valueFrom:
                 secretKeyRef:
                   name: mongodb-auth
                   key: username
-            - name: AMBULANCE_API_MONGODB_PASSWORD
+            - name: BLOOD_DONORS_API_MONGODB_PASSWORD
               value: null
               valueFrom:
                 secretKeyRef:
