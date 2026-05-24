@@ -1,0 +1,8 @@
+generatorName: go-gin-server
+outputDir: /local
+inputSpec: /local/api/blood-donors.openapi.yaml
+enablePostProcessFile: true
+additionalProperties:
+  apiPath: internal/blood_donors
+  packageName: blood_donors
+  interfaceOnly: true
