@@ -30,7 +30,8 @@ db.donation_sites.insertMany([
           { date: ISODate("2025-07-10T09:00:00Z"), donationType: { value: "Darovanie krvi", code: "blood" }, status: "Odber dokončený" },
           { date: ISODate("2024-02-13T10:45:00Z"), donationType: { value: "Darovanie krvi", code: "blood" }, status: "Odber dokončený" },
           { date: ISODate("2026-06-18T09:00:00Z"), donationType: { value: "Darovanie krvi", code: "blood" }, status: "Rezervácia dokončená" },
-          { date: ISODate("2026-03-02T09:00:00Z"), donationType: { value: "Darovanie krvi", code: "blood" }, status: "Zrušená rezervácia", note: "Darca sa nedostavil" }
+          { date: ISODate("2026-03-02T09:00:00Z"), donationType: { value: "Darovanie krvi", code: "blood" }, status: "Zrušená rezervácia", note: "Darca sa nedostavil" },
+          { date: ISODate("2025-09-15T11:00:00Z"), donationType: { value: "Darovanie krvnej plazmy", code: "plasma" }, status: "Odber dokončený" }
         ]
       },
       {
