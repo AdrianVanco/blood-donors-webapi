@@ -68,5 +68,7 @@ func main() {
 	}
 	blood_donors.NewRouterWithGinEngine(engine, *handleFunctions)
 	engine.GET("/openapi", api.HandleOpenApi)
+	// identita prihláseného používateľa (FE ju potrebuje, lebo OIDC cookies sú HttpOnly)
+	engine.GET("/api/whoami", blood_donors.WhoAmI)
 	engine.Run(":" + port)
 }

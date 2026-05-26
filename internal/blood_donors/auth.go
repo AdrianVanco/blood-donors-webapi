@@ -74,6 +74,18 @@ func behindGateway(c *gin.Context) bool {
 	return forwardedEmail(c) != "" || c.GetHeader("x-forwarded-roles") != ""
 }
 
+// WhoAmI vráti identitu prihláseného používateľa z hlavičiek, ktoré dopĺňa
+// gateway/OPA. Frontend ho používa na zistenie role, pretože OIDC cookies sú
+// HttpOnly (JavaScript ich nevie prečítať).
+func WhoAmI(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"email":  forwardedEmail(c),
+		"name":   strings.TrimSpace(c.GetHeader("x-forwarded-user")),
+		"roles":  forwardedRoles(c),
+		"worker": isWorker(c),
+	})
+}
+
 // requireWorker zamietne požiadavku so stavom 403, ak používateľ nie je
 // pracovník. Vráti true, ak smie pokračovať.
 func requireWorker(c *gin.Context) bool {
