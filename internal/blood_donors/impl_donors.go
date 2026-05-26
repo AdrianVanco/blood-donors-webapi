@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"slices"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -20,6 +21,10 @@ func NewDonorsApi() DonorsAPI {
 }
 
 func (o implDonorsAPI) CreateDonor(c *gin.Context) {
+	// Registrovať nového darcu smie len pracovník.
+	if !requireWorker(c) {
+		return
+	}
 	updateSiteFunc(c, func(c *gin.Context, site *DonationSite) (*DonationSite, interface{}, int) {
 		logger := o.logger.With().
 			Str("method", "CreateDonor").
@@ -65,6 +70,10 @@ func (o implDonorsAPI) CreateDonor(c *gin.Context) {
 }
 
 func (o implDonorsAPI) DeleteDonor(c *gin.Context) {
+	// Zmazať darcu smie len pracovník.
+	if !requireWorker(c) {
+		return
+	}
 	updateSiteFunc(c, func(c *gin.Context, site *DonationSite) (*DonationSite, interface{}, int) {
 		entryId := c.Param("entryId")
 
@@ -152,6 +161,18 @@ func (o implDonorsAPI) UpdateDonor(c *gin.Context) {
 				"status":  http.StatusNotFound,
 				"message": "Donor not found",
 			}, http.StatusNotFound
+		}
+
+		// Upraviť darcu smie pracovník, alebo darca svoj vlastný záznam
+		// (zhoda emailu z gateway s emailom darcu).
+		if behindGateway(c) && !isWorker(c) {
+			email := forwardedEmail(c)
+			if email == "" || !strings.EqualFold(email, site.Donors[indx].Email) {
+				return nil, gin.H{
+					"status":  http.StatusForbidden,
+					"message": "Môžete upraviť len vlastný profil",
+				}, http.StatusForbidden
+			}
 		}
 
 		// id a registračné číslo sú nemenné - zachováme pôvodné hodnoty
